@@ -1,0 +1,26 @@
+import UIKit
+
+var str = "Hello, playground"
+
+
+
+let fileManager = FileManager.default
+let docPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first?.path
+
+var file = docPath?.appending("/Lixin")
+if fileManager.fileExists(atPath: file!) {
+    let image = file?.appending("/flower.jpg")
+    if fileManager.fileExists(atPath: image!){
+        print("存在")
+    }
+    else{
+        let url = URL(string:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2107443093,839044693&fm=26&gp=0.jpg")
+        let data = try Data(contentsOf: url!)
+        try data.write(to:URL(fileURLWithPath: image!),options: .atomicWrite)
+    }
+}
+else{
+    try fileManager.createDirectory(atPath: file!, withIntermediateDirectories: true, attributes: nil)
+    print("文件不存在，创建文件")
+}
+
